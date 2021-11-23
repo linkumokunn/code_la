@@ -26,7 +26,7 @@
 #define pii pair<int,int>
 #define endl '\n'
 #define Orz ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-#define MAXN 600001
+#define MAXN 50001
 using namespace std;
 //YeedragOrz
 //8e7Orz
@@ -44,7 +44,17 @@ using namespace std;
 //jikuaiOrz
 
 int main(){
-	
+	int t;cin>>t;
+	while(t--){
+		int a,b;cin>>a>>b;
+		if((a+b)%2==0){
+			if(a>=(a+b)/2){
+				cout<<(a-(a+b)/2)<<" "<<b<<endl;
+			}else cout<<a<<" "<<(b-(a+b)/2)<<endl;
+		}else cout<<-1<<" "<<-1<<endl;
+	}
 	return 0;
 }
- 
+
+
+
