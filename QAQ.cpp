@@ -26,7 +26,7 @@
 #define pii pair<int,int>
 #define endl '\n'
 #define Orz ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-#define MAXN 600001
+#define MAXN 10001
 using namespace std;
 //YeedragOrz
 //8e7Orz
@@ -45,6 +45,5 @@ using namespace std;
 
 int main(){
 	
-	return 0;
-}
- 
+	return 0 ;
+} 
