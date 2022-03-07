@@ -42,36 +42,45 @@ using namespace std;
 //foxyyOrz
 //peiganOrz
 //jikuaiOrz
-vector<int> edg[MAXN];
-int pai[MAXN]={},mac[MAXN],num=0;
-void dfs(int pos,int pre){
-	for(auto i:edg[pos]){
-		if(i!=pre){
-			dfs(i,pos);
-			if(mac[i]){
-				pai[pos]=1;
-			}
-			if(pai[i]==0&&mac[pos]==0){
-				pai[i]=1;
-				pai[pos]=1;
-				mac[pos]=1;num++;
-			}
-		}
-	}
-}
+
+int vis[5000001]={};
 int main(){
-	int n;while(cin>>n){
-		for(int i=1;i<=n;i++)edg[i].clear(),pai[i]=0,mac[i]=0;
-		num=0;
-		for(int i=1;i<n;i++){
-			int a,b;cin>>a>>b;
-			edg[a].pb(b);
-			edg[b].pb(a);
+	Orz
+	int t;cin>>t;
+	vector<int> p;
+	for(int i=2;i<=5000000;i++){
+		if(vis[i]==0)p.pb(i);
+		for(int j=i;j<=5000000;j+=i){
+			vis[j]=1;
 		}
-		dfs(1,-1);
-		if(pai[1]==0)num++;
-		cout<<num<<endl;
 	}
+	while(t--){
+		int n;cin>>n;
+		int ans=0;
+		vector<pair<int,int>> ma;
+		for(int i:p){
+			if(i*i>n)break;
+			if(n%i==0){
+				ma.pb(mp(i,0));
+				while(n%i==0)ma[ma.size()-1].S+=1,n/=i;	
+			}
+		}
+		if(n>1)ma.pb(mp(n,1));
+		for(int i=0;i<ma.size();i++){
+			int cnt=0;
+			while(ma[i].S>0){
+				cnt++;
+				ma[i].S--;
+				int tmp=cnt;	
+				while(tmp%ma[i].F==0){
+					tmp/=ma[i].F;
+					ma[i].S--;
+				}
+			}
+			ans=max(ans,cnt*ma[i].F);
+		}
+		cout<<ans<<endl;
+	}	
 	return 0;
 }
 

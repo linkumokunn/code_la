@@ -42,36 +42,19 @@ using namespace std;
 //foxyyOrz
 //peiganOrz
 //jikuaiOrz
-vector<int> edg[MAXN];
-int pai[MAXN]={},mac[MAXN],num=0;
-void dfs(int pos,int pre){
-	for(auto i:edg[pos]){
-		if(i!=pre){
-			dfs(i,pos);
-			if(mac[i]){
-				pai[pos]=1;
-			}
-			if(pai[i]==0&&mac[pos]==0){
-				pai[i]=1;
-				pai[pos]=1;
-				mac[pos]=1;num++;
-			}
-		}
-	}
-}
+
 int main(){
-	int n;while(cin>>n){
-		for(int i=1;i<=n;i++)edg[i].clear(),pai[i]=0,mac[i]=0;
-		num=0;
-		for(int i=1;i<n;i++){
-			int a,b;cin>>a>>b;
-			edg[a].pb(b);
-			edg[b].pb(a);
-		}
-		dfs(1,-1);
-		if(pai[1]==0)num++;
-		cout<<num<<endl;
+	int n;cin>>n;pii arr[n];
+	for(int i=0;i<n;i++){
+		cin>>arr[i].F>>arr[i].S;
 	}
+	sort(arr,arr+n);
+	vector<int> ans;
+	for(int i=0;i<n;i++){
+		if(upper_bound(ans.begin(),ans.end(),arr[i].S)==ans.end())ans.pb(arr[i].S);
+		else ans[upper_bound(ans.begin(),ans.end(),arr[i].S)-ans.begin()]=arr[i].S;
+	}
+	cout<<n-ans.size()<<endl;
 	return 0;
 }
 

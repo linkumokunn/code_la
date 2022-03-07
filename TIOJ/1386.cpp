@@ -42,36 +42,27 @@ using namespace std;
 //foxyyOrz
 //peiganOrz
 //jikuaiOrz
-vector<int> edg[MAXN];
-int pai[MAXN]={},mac[MAXN],num=0;
-void dfs(int pos,int pre){
-	for(auto i:edg[pos]){
-		if(i!=pre){
-			dfs(i,pos);
-			if(mac[i]){
-				pai[pos]=1;
-			}
-			if(pai[i]==0&&mac[pos]==0){
-				pai[i]=1;
-				pai[pos]=1;
-				mac[pos]=1;num++;
-			}
-		}
-	}
-}
+
+int arr[1001][1000]={};
 int main(){
-	int n;while(cin>>n){
-		for(int i=1;i<=n;i++)edg[i].clear(),pai[i]=0,mac[i]=0;
-		num=0;
-		for(int i=1;i<n;i++){
-			int a,b;cin>>a>>b;
-			edg[a].pb(b);
-			edg[b].pb(a);
+	arr[1][1]=1;arr[2][1]=2;
+	for(int i=3;i<=1000;i++){
+		arr[i][1]=1;
+		for(int j=0;j<999;j++){
+			arr[i][j]+=arr[i-1][j]+arr[i-2][j]*2;
+			arr[i][j+1]+=arr[i][j]/10;
+			arr[i][j]=arr[i][j]%10;
 		}
-		dfs(1,-1);
-		if(pai[1]==0)num++;
-		cout<<num<<endl;
+		
 	}
+	int n;
+	while(cin>>n){
+		int flag=0;
+		for(int i=999;i>0;i--){
+			if(arr[n][i]!=0)flag=1;
+			if(flag)cout<<arr[n][i];
+		}cout<<endl;
+	} 
 	return 0;
 }
 

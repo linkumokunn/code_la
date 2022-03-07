@@ -21,12 +21,13 @@
 #define mp make_pair
 #define F first
 #define S second
+#define ll long long
 #define pq priority_queue
-#define ll long long int
-#define pii pair<int,int>
+#define pii pair<ll,ll>
 #define endl '\n'
 #define Orz ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-#define MAXN 10001
+#define MAXN 200010
+#define MOD 1000000007
 using namespace std;
 //YeedragOrz
 //8e7Orz
@@ -42,36 +43,35 @@ using namespace std;
 //foxyyOrz
 //peiganOrz
 //jikuaiOrz
-vector<int> edg[MAXN];
-int pai[MAXN]={},mac[MAXN],num=0;
-void dfs(int pos,int pre){
-	for(auto i:edg[pos]){
-		if(i!=pre){
-			dfs(i,pos);
-			if(mac[i]){
-				pai[pos]=1;
-			}
-			if(pai[i]==0&&mac[pos]==0){
-				pai[i]=1;
-				pai[pos]=1;
-				mac[pos]=1;num++;
-			}
+int bit[1000][1000]={},n;
+void modi(int a,int b,int val){
+	for(int i=a;i<=n;i+=(i&-i)){
+		for(int j=b;j<=n;j+=(j&-j)){
+			bit[i][j]=max(bit[i][j],val);
 		}
 	}
+	return ;
+}
+int que(int a,int b){
+	int ans=0;
+	for(int i=a;i>0;i-=(i&-i)){
+		for(int j=b;j>0;j-=(j&-j)){
+			ans=max(ans,bit[i][j]);
+		}
+	}
+	return ans;
 }
 int main(){
-	int n;while(cin>>n){
-		for(int i=1;i<=n;i++)edg[i].clear(),pai[i]=0,mac[i]=0;
-		num=0;
-		for(int i=1;i<n;i++){
-			int a,b;cin>>a>>b;
-			edg[a].pb(b);
-			edg[b].pb(a);
+	cin>>n;
+	pair<int,pii> arr[n*n];int cnt=0;
+	for(int i=0;i<n;i++){
+		for(int j=0;j<n;j++){
+			int val;cin>>val;
+			arr[cnt++]=mp(val,mp(i+1,j+1));
 		}
-		dfs(1,-1);
-		if(pai[1]==0)num++;
-		cout<<num<<endl;
+	}sort(arr,arr+n*n);
+	for(auto i:arr){
+		modi(i.S.F,i.S.S,que(i.S.F,i.S.S)+1);
 	}
-	return 0;
+	cout<<que(n,n)<<endl;
 }
-
