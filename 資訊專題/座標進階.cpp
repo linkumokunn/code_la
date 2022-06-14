@@ -42,52 +42,48 @@ using namespace std;
 //foxyyOrz
 //peiganOrz
 //jikuaiOrz
-int ma[30][30];//存圖 
-set<int> gra[100];//存鄰接關係 
-int color[100]={},iru[100]={},cnt=0;//color:存國家對應顏色 iru:存國家編號是否存在 cnt:存國家數 
-void dfs(int pos){
-	set<int> se;//存鄰國顏色 
-	for(auto i:gra[pos]){//遍歷鄰國，紀錄顏色 
-		if(color[i])se.insert(color[i]);
-	}
-	int i=1;auto ind=se.begin();
-	for(;i<=se.size();i++){
-		if((*ind)!=i&&color[pos]==0)color[pos]=i;//找出不在鄰國中的最小顏色 
-		ind++;
-	}
-	if(color[pos]==0)color[pos]=i;
-	for(auto i:gra[pos]){
-		if(color[i]==0)dfs(i);//遍歷未著色鄰國 
-	}
-}
+char arr[100][100];//儲存輸出的圖 
 int main(){
-	for(int i=0;i<30;i++){
-		for(int j=0;j<30;j++){
-			char a,b;scanf("%c",&a);scanf("%c",&b);//輸入 
-			if(b>='0'&&b<='9')ma[i][j]=(a-'0')*10+b-'0';
-			else ma[i][j]=a-'0';
-			if(ma[i][j]==0)continue;
-			if(iru[ma[i][j]])ma[i][j]=iru[ma[i][j]];//已編號國家直接存 
-			else iru[ma[i][j]]=(++cnt),ma[i][j]=iru[ma[i][j]];//未編號國家拿新編號 
+	int a,b;cin>>a>>b;
+	double aa=a,bb=b;//轉為double 
+	for(int i=0;i<100;i++)for(int j=0;j<100;j++)arr[i][j]=' ';//初始化 
+	int x=0,y=b;double d=bb*bb+aa*aa*(bb-0.5)*(bb-0.5)-aa*aa*bb*bb;//xy座標,判別式量值 
+	arr[50][50+b]='*';//畫圖 
+	arr[50][49-b]='*';
+	arr[49][50+b]='*';
+	arr[49][49-b]='*';
+	while(1){
+		if(d<0){//判別式小於0 
+			d+=bb*bb*(2*(double)x+3);//更新辦別式差值 
+			x++;//更新座標 
+		}else{
+			d+=bb*bb*(2*(double)x+3)+aa*aa*(-2*(double)y+2);//更新辦別式差值 
+			x++;y--;//更新座標
 		}
+		arr[50+x][50+y]='*';//畫圖 
+		arr[49-x][50+y]='*';
+		arr[50+x][49-y]='*';
+		arr[49-x][49-y]='*';
+		if(bb*bb*((double)x+1)>=aa*aa*((double)y-0.5))break;
 	}
-	for(int i=0;i<30;i++){
-		for(int j=0;j<30;j++){//建立鄰接關係 
-			if(i!=0){
-				if(ma[i-1][j]!=0&&ma[i][j]!=0)gra[ma[i][j]].insert(ma[i-1][j]),gra[ma[i-1][j]].insert(ma[i][j]);
-			}
-			if(j!=0){
-				if(ma[i][j-1]!=0&&ma[i][j]!=0)gra[ma[i][j]].insert(ma[i][j-1]),gra[ma[i][j-1]].insert(ma[i][j]);
-			}
+	d=bb*bb*((double)x+0.5)*((double)x+0.5)+aa*aa*((double)y-1)*((double)y-1)-aa*aa*bb*bb;//重設判別式 
+	while(1){
+		if(d<0){//判別式小於0 
+			d+=bb*bb*(2*(double)x+2)+aa*aa*(-2*(double)y+1);//更新辦別式差值 
+			x++;y--;//更新座標
+		}else{
+			d+=aa*aa*(-2*(double)y+1);//更新辦別式差值 
+			y--;//更新座標
 		}
+		arr[50+x][50+y]='*';//畫圖 
+		arr[49-x][50+y]='*';
+		arr[50+x][49-y]='*';
+		arr[49-x][49-y]='*';
+		if(y<=0)break;
 	}
-	dfs(1);//著色 
-	for(int i=0;i<30;i++){//輸出 
-		if(color[ma[i][0]])cout<<(char)('a'+color[ma[i][0]]-1);
-		else cout<<'`';
-		for(int j=1;j<30;j++){
-			if(color[ma[i][j]])cout<<" "<<(char)('a'+color[ma[i][j]]-1);
-			else cout<<" `";
+	for(int i=0;i<100;i++){
+		for(int j=0;j<100;j++){
+			cout<<arr[i][j];//輸出 
 		}cout<<endl;
 	}
 	return 0;
