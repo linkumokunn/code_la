@@ -49,9 +49,9 @@ int main(){
 	for(int i=0;i<100;i++)for(int j=0;j<100;j++)arr[i][j]=' ';//初始化 
 	int x=0,y=b;double d=bb*bb+aa*aa*(bb-0.5)*(bb-0.5)-aa*aa*bb*bb;//xy座標,判別式量值 
 	arr[50][50+b]='*';//畫圖 
-	arr[50][49-b]='*';
-	arr[49][50+b]='*';
-	arr[49][49-b]='*';
+	arr[50][50-b]='*';
+	arr[50][50+b]='*';
+	arr[50][50-b]='*';
 	while(1){
 		if(d<0){//判別式小於0 
 			d+=bb*bb*(2*(double)x+3);//更新辦別式差值 
@@ -61,9 +61,9 @@ int main(){
 			x++;y--;//更新座標
 		}
 		arr[50+x][50+y]='*';//畫圖 
-		arr[49-x][50+y]='*';
-		arr[50+x][49-y]='*';
-		arr[49-x][49-y]='*';
+		arr[50-x][50+y]='*';
+		arr[50+x][50-y]='*';
+		arr[50-x][50-y]='*';
 		if(bb*bb*((double)x+1)>=aa*aa*((double)y-0.5))break;
 	}
 	d=bb*bb*((double)x+0.5)*((double)x+0.5)+aa*aa*((double)y-1)*((double)y-1)-aa*aa*bb*bb;//重設判別式 
@@ -76,9 +76,9 @@ int main(){
 			y--;//更新座標
 		}
 		arr[50+x][50+y]='*';//畫圖 
-		arr[49-x][50+y]='*';
-		arr[50+x][49-y]='*';
-		arr[49-x][49-y]='*';
+		arr[50-x][50+y]='*';
+		arr[50+x][50-y]='*';
+		arr[50-x][50-y]='*';
 		if(y<=0)break;
 	}
 	for(int i=0;i<100;i++){
