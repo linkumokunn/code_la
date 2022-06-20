@@ -45,13 +45,15 @@ using namespace __gnu_pbds;
 //foxyyOrz
 //peiganOrz
 //jikuaiOrz
-int n,arr[5]={},t,ans=-1,cnt=0;//n:量杯數量 arr:量杯容量 t:要求容量 ans:答案 cnt:目前步驟數 
+int n,arr[5]={},t,ans=-1,anss,cnt=0,pos=1;//n:量杯數量 arr:量杯容量 t:要求容量 ans:答案 cnt:目前步驟數 
+pair<int,vector<int>> stat[10000000];
 const int RANDOM = chrono::high_resolution_clock::now().time_since_epoch().count();
 struct chash {
     int operator()(int x) const { return x ^ RANDOM; }
 };
 gp_hash_table<int,bool> ma;//存hash值 
-queue<vector<int>,list<vector<int>>> q;//bfs用 queue 
+//map<int,bool> ma;
+queue<pair<vector<int>,int>,list<pair<vector<int>,int>>> q;//bfs用 queue 
 const ll MOD=1e9+7;
 const ll mul=1117;
 inline bool check(vector<int> a){//檢查hash值 
@@ -88,24 +90,34 @@ int main(){
 	vector<int> sta,tmp;
 	sta.reserve(5);tmp.reserve(5);
 	for(int i=0;i<n;i++)sta.pb(0);//初始狀態 
-	q.push(sta);
+	stat[0].F=-1;
+	stat[0].S=sta;
+	q.push(mp(sta,0));
 	while(q.size()){//bfs
 		cnt++;
 		no=clock();
 		cout<<cnt<<" "<<double(no-st)/CLOCKS_PER_SEC<<"秒"<<endl;
 		int siz=q.size();
 		while(siz--){//同一步驟數一起跑 
-			sta=q.front();q.pop();
+			sta=q.front().F;int now=q.front().S;q.pop();
 			for(int i=0;i<n;i++){
 				if(sta[i]!=arr[i]){//倒滿 
 					tmp=sta;tmp[i]=arr[i];
-					if(check(tmp))q.push(tmp),add(tmp);
+					if(check(tmp)){
+						stat[pos].F=now;
+						stat[pos].S=tmp;
+						q.push(mp(tmp,pos)),add(tmp);pos++;
+					}
 				}
 			}
 			for(int i=0;i<n;i++){
 				if(sta[i]!=0){//清空 
 					tmp=sta;tmp[i]=0;
-					if(check(tmp))q.push(tmp),add(tmp);
+					if(check(tmp)){
+						stat[pos].F=now;
+						stat[pos].S=tmp;
+						q.push(mp(tmp,pos)),add(tmp);pos++;
+					}
 				}
 			}
 			for(int i=0;i<n;i++){
@@ -115,8 +127,12 @@ int main(){
 						ll ttmp=min(tmp[i],arr[j]-tmp[j]);
 						tmp[j]+=ttmp;
 						tmp[i]-=ttmp;
-						if(tmp[i]==t||tmp[j]==t)ans=cnt;//檢查答案 
-						if(check(tmp))q.push(tmp),add(tmp);
+						if((tmp[i]==t||tmp[j]==t)&&ans==-1)ans=cnt,anss=pos;//檢查答案 
+						if(check(tmp)){
+							stat[pos].F=now;
+							stat[pos].S=tmp;
+							q.push(mp(tmp,pos)),add(tmp);pos++;
+						}
 					}
 				}
 			}
@@ -124,6 +140,15 @@ int main(){
 		if(ans!=-1)break;
 	}
 	no=clock();
-	cout<<ans<<" "<<double(no-st)/CLOCKS_PER_SEC<<"秒"<<endl;
+	cout<<ans<<endl;//" "<<double(no-st)/CLOCKS_PER_SEC<<"秒"<<endl;
+	stack<vector<int>> Qq;
+	while(stat[anss].F!=-1){
+		Qq.push(stat[anss].S);
+		anss=stat[anss].F;
+	}
+	while(Qq.size()){
+		for(auto i:Qq.top())cout<<i<<" ";
+		cout<<endl;Qq.pop();
+	}
 	return 0;
 }
