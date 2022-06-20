@@ -42,16 +42,16 @@ using namespace std;
 //foxyyOrz
 //peiganOrz
 //jikuaiOrz
-char arr[100][100];//儲存輸出的圖 
+char arr[200][200];//儲存輸出的圖 
 int main(){
-	int a,b;cin>>a>>b;
+	int sx,sy,a,b;cin>>sx>>sy>>a>>b;
 	double aa=a,bb=b;//轉為double 
-	for(int i=0;i<100;i++)for(int j=0;j<100;j++)arr[i][j]=' ';//初始化 
+	for(int i=0;i<200;i++)for(int j=0;j<200;j++)arr[i][j]=' ';//初始化 
 	int x=0,y=b;double d=bb*bb+aa*aa*(bb-0.5)*(bb-0.5)-aa*aa*bb*bb;//xy座標,判別式量值 
-	arr[50][50+b]='*';//畫圖 
-	arr[50][50-b]='*';
-	arr[50][50+b]='*';
-	arr[50][50-b]='*';
+	arr[sx][sy+b]='*';//畫圖 
+	arr[sx][sy-b]='*';
+	arr[sx][sy+b]='*';
+	arr[sx][sy-b]='*';
 	while(1){
 		if(d<0){//判別式小於0 
 			d+=bb*bb*(2*(double)x+3);//更新辦別式差值 
@@ -60,10 +60,10 @@ int main(){
 			d+=bb*bb*(2*(double)x+3)+aa*aa*(-2*(double)y+2);//更新辦別式差值 
 			x++;y--;//更新座標
 		}
-		arr[50+x][50+y]='*';//畫圖 
-		arr[50-x][50+y]='*';
-		arr[50+x][50-y]='*';
-		arr[50-x][50-y]='*';
+		arr[sx+x][sy+y]='*';//畫圖 
+		arr[sx-x][sy+y]='*';
+		arr[sx+x][sy-y]='*';
+		arr[sx-x][sy-y]='*';
 		if(bb*bb*((double)x+1)>=aa*aa*((double)y-0.5))break;
 	}
 	d=bb*bb*((double)x+0.5)*((double)x+0.5)+aa*aa*((double)y-1)*((double)y-1)-aa*aa*bb*bb;//重設判別式 
@@ -75,14 +75,14 @@ int main(){
 			d+=aa*aa*(-2*(double)y+1);//更新辦別式差值 
 			y--;//更新座標
 		}
-		arr[50+x][50+y]='*';//畫圖 
-		arr[50-x][50+y]='*';
-		arr[50+x][50-y]='*';
-		arr[50-x][50-y]='*';
+		arr[sx+x][sy+y]='*';//畫圖 
+		arr[sx-x][sy+y]='*';
+		arr[sx+x][sy-y]='*';
+		arr[sx-x][sy-y]='*';
 		if(y<=0)break;
 	}
-	for(int i=0;i<100;i++){
-		for(int j=0;j<100;j++){
+	for(int i=0;i<200;i++){
+		for(int j=0;j<200;j++){
 			cout<<arr[i][j];//輸出 
 		}cout<<endl;
 	}
