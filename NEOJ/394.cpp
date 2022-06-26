@@ -47,24 +47,24 @@ int dis[501][501];
 int main(){
 	Orz
 	int n;cin>>n;
-	for(int i=0;i<=500;i++)for(int j=0;j<=500;j++)dis[i][j]=1e9;
+	for(int i=0;i<=500;i++)for(int j=0;j<=500;j++)dis[i][j]=1e6;
 	for(int i=0;i<=500;i++)dis[i][i]=0;
 	for(int i=1;i<=n;i++){
 		for(int j=1;j<=n;j++){
 			cin>>dis[i][j];
-			if(dis[i][j]==-1)dis[i][j]=1e9;
+			if(dis[i][j]==-1)dis[i][j]=1e6;
+		}
+	}
+	for(int i=1;i<=n;i++){
+		for(int j=1;j<=n;j++){
 			for(int k=1;k<=n;k++){
-				dis[k][j]=min(dis[k][j],dis[k][i]+dis[i][j]);
-			}
-			for(int k=1;k<=n;k++){
-				dis[i][k]=min(dis[i][k],dis[i][j]+dis[j][k]);
-				
+				dis[j][k]=min(dis[j][k],dis[j][i]+dis[i][k]);
 			}
 		}
 		int ans=0;
 		for(int j=1;j<=i;j++){
 			for(int k=1;k<=i;k++){
-				if(dis[j][k]==1e9)ans=-1;
+				if(dis[j][k]==1e6)ans=-1;
 				else if(ans!=-1)ans=max(ans,dis[j][k]);
 			}
 		}
