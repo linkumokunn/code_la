@@ -16,32 +16,8 @@ int main(){
 	int n,m;cin>>n>>m;
 	ll arr[n][m];
 	ll ans=-1e18;pii a,b;
-	int flag=1;
 	for(int i=0;i<n;i++)for(int j=0;j<m;j++){
 		cin>>arr[i][j];
-		if(arr[i][j]<0)flag=0;
-	}
-	if(flag){
-		int ty=0;
-		for(int i=0;i<n;i++){
-			ll sum=0;for(int j=0;j<m;j++)sum+=arr[i][j];
-			if(sum>ans)ans=sum,ty=1;
-		}
-		for(int i=0;i<m;i++){
-			ll sum=0;for(int j=0;j<n;j++)sum+=arr[j][i];
-			if(sum>ans)ans=sum,ty=0;
-		}
-		cout<<ans<<endl;
-		if(ty){
-			for(int i=0;i<n;i++){
-				cout<<'U';
-			}cout<<endl;
-		}else{
-			for(int i=0;i<m;i++){
-				cout<<'R';
-			}cout<<endl;
-		}
-		return 0;
 	}
 	for(int i=0;i<n;i++){
 		priority_queue<pii,vector<pii>,greater<pii>> pq;
@@ -60,7 +36,7 @@ int main(){
 	for(int j=0;j<m;j++){
 		priority_queue<pii,vector<pii>,greater<pii>> pq;
 		pq.push(mp(0,-1));
-		ll brr[m+1];brr[0]=0;
+		ll brr[n+1];brr[0]=0;
 		for(int i=1;i<=n;i++)brr[i]=arr[i-1][j],brr[i]+=brr[i-1];
 		for(int i=1;i<=n;i++){
 			if(ans<brr[i]-pq.top().F){
