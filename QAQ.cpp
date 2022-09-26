@@ -21,7 +21,6 @@
 #define mp make_pair
 #define F first
 #define S second
-#define pq priority_queue
 #define ll long long int
 #define pii pair<int,int>
 #define endl '\n'
